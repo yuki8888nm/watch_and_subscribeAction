@@ -1,3 +1,6 @@
+const activateAlertStateKeys = ['content'];
+const invalidateAlertActions = ['save'];
+
 export const state = () => ({
   content: {
     hoge: '',
@@ -25,7 +28,7 @@ export const mutations = {
 };
 
 export const actions = {
-  init({ commit, getters }) {
+  init({ commit }) {
     // モック（本来はデータをサーバー側から取得してcommitする）
     commit('changeHoge', {
       value: 'test',
@@ -37,14 +40,14 @@ export const actions = {
       value: 'Hello World!',
     });
     this.watch(
-      state => getters.activateAlertStateKeys.map(key => state[key]),
+      state => activateAlertStateKeys.map(key => state[key]),
       () => window.onbeforeunload = () => true,
       {
         deep: true,
       }
     );
     this.subscribeAction(action => {
-      if (getters.invalidateAlertActions.includes(action.type)) {
+      if (invalidateAlertActions.includes(action.type)) {
         window.onbeforeunload = () => undefined;
       }
     });
@@ -64,13 +67,4 @@ export const actions = {
       value: state.content.option.memo,
     });
   },
-};
-
-export const getters = {
-  activateAlertStateKeys() {
-    return ['content'];
-  },
-  invalidateAlertActions() {
-    return ['save']
-  }
 };

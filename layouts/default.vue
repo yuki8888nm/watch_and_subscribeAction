@@ -4,7 +4,7 @@
 <script>
 export default {
   mounted() {
-    const { $store, state } = this;
+    const { $store } = this;
     $store.dispatch('init');
   },
 };
