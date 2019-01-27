@@ -6,7 +6,7 @@ export const state = () => ({
       memo: '',
     },
   },
-  isEditing: false,
+  isInitialized: false,
 });
 
 export const mutations = {
@@ -19,8 +19,8 @@ export const mutations = {
   changeOptionMemo(state, payload) {
     state.content.option.memo = payload.value;
   },
-  changeIsEditing(state, payload) {
-    state.isEditing = payload.value;
+  changeIsInitialized(state, payload) {
+    state.isInitialized = payload.value;
   },
 };
 
@@ -36,14 +36,21 @@ export const actions = {
     commit('changeOptionMemo', {
       value: 'Hello World!',
     });
-  },
-  startEdit({ commit }) {
-    window.onbeforeunload = () => true;
-    commit('changeIsEditing', { value: true });
-  },
-  endEdit({ commit }) {
-    window.onbeforeunload = () => undefined;
-    commit('changeIsEditing', { value: false });
+    this.watch(
+      state => state.content,
+      () => window.onbeforeunload = () => true,
+      {
+        deep: true,
+      }
+    );
+    this.subscribeAction(action => {
+      if (action.type === 'save') {
+        window.onbeforeunload = () => undefined;
+      }
+    });
+    commit('changeIsInitialized', {
+      value: true,
+    });
   },
   save({ commit, state }) {
     // モック（本来はーバー側にリクエストしてそのレスポンスをcommitする）
@@ -56,11 +63,5 @@ export const actions = {
     commit('changeOptionMemo', {
       value: state.content.option.memo,
     });
-  },
-};
-
-export const getters = {
-  stateKeys() {
-    return ['content'];
   },
 };
