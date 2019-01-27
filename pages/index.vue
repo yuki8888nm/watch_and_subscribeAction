@@ -5,24 +5,24 @@
       <div>
         <label>rootHoge</label>
         <input
-          :value="$store.state.hoge"
-          @change="e => changeRootHoge({ value: e.target.value })"
+          :value="$store.state.content.hoge"
+          @change="e => changeHoge({ value: e.target.value })"
           type="text"
         />
       </div>
       <div>
         <label>rootFuga</label>
         <input
-          :value="$store.state.fuga"
-          @change="e => changeRootFuga({ value: e.target.value })"
+          :value="$store.state.content.fuga"
+          @change="e => changeFuga({ value: e.target.value })"
           type="text"
         />
       </div>
       <div>
         <label>rootOptionMemo</label>
         <input
-          :value="$store.state.option.memo"
-          @change="e => changeRootOptionMemo({ value: e.target.value })"
+          :value="$store.state.content.option.memo"
+          @change="e => changeOptionMemo({ value: e.target.value })"
           type="text"
         />
       </div>
@@ -37,9 +37,9 @@ export default {
   methods: {
     ...mapActions(['save']),
     ...mapMutations([
-      'changeRootHoge',
-      'changeRootFuga',
-      'changeRootOptionMemo',
+      'changeHoge',
+      'changeFuga',
+      'changeOptionMemo',
     ]),
   },
 };

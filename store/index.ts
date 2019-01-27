@@ -1,21 +1,23 @@
 export const state = () => ({
-  hoge: '',
-  fuga: 0,
-  option: {
-    memo: '',
+  content: {
+    hoge: '',
+    fuga: 0,
+    option: {
+      memo: '',
+    },
   },
   isEditing: false,
 });
 
 export const mutations = {
-  changeRootHoge(state, payload) {
-    state.hoge = payload.value;
+  changeHoge(state, payload) {
+    state.content.hoge = payload.value;
   },
-  changeRootFuga(state, payload) {
-    state.fuga = payload.value;
+  changeFuga(state, payload) {
+    state.content.fuga = payload.value;
   },
-  changeRootOptionMemo(state, payload) {
-    state.option.memo = payload.value;
+  changeOptionMemo(state, payload) {
+    state.content.option.memo = payload.value;
   },
   changeIsEditing(state, payload) {
     state.isEditing = payload.value;
@@ -25,13 +27,13 @@ export const mutations = {
 export const actions = {
   init({ commit }) {
     // モック（本来はデータをサーバー側から取得してcommitする）
-    commit('changeRootHoge', {
+    commit('changeHoge', {
       value: 'test',
     });
-    commit('changeRootFuga', {
+    commit('changeFuga', {
       value: 10,
     });
-    commit('changeRootOptionMemo', {
+    commit('changeOptionMemo', {
       value: 'Hello World!',
     });
   },
@@ -45,23 +47,20 @@ export const actions = {
   },
   save({ commit, state }) {
     // モック（本来はーバー側にリクエストしてそのレスポンスをcommitする）
-    commit('changeRootHoge', {
-      value: state.hoge,
+    commit('changeHoge', {
+      value: state.content.hoge,
     });
-    commit('changeRootFuga', {
-      value: state.fuga,
+    commit('changeFuga', {
+      value: state.content.fuga,
     });
-    commit('changeRootOptionMemo', {
-      value: state.option.memo,
+    commit('changeOptionMemo', {
+      value: state.content.option.memo,
     });
   },
 };
 
 export const getters = {
-  doubleFuga(state) {
-    return state.fuga * 2;
-  },
   stateKeys() {
-    return ['hoge', 'fuga', 'option'];
+    return ['content'];
   },
 };
