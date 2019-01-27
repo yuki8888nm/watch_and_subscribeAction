@@ -25,7 +25,7 @@ export const mutations = {
 };
 
 export const actions = {
-  init({ commit }) {
+  init({ commit, getters }) {
     // モック（本来はデータをサーバー側から取得してcommitする）
     commit('changeHoge', {
       value: 'test',
@@ -37,14 +37,14 @@ export const actions = {
       value: 'Hello World!',
     });
     this.watch(
-      state => state.content,
+      state => getters.activateAlertStateKeys.map(key => state[key]),
       () => window.onbeforeunload = () => true,
       {
         deep: true,
       }
     );
     this.subscribeAction(action => {
-      if (action.type === 'save') {
+      if (getters.invalidateAlertActions.includes(action.type)) {
         window.onbeforeunload = () => undefined;
       }
     });
@@ -64,4 +64,13 @@ export const actions = {
       value: state.content.option.memo,
     });
   },
+};
+
+export const getters = {
+  activateAlertStateKeys() {
+    return ['content'];
+  },
+  invalidateAlertActions() {
+    return ['save']
+  }
 };
